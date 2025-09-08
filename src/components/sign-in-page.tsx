@@ -24,16 +24,12 @@ const FormSchema = z.object({
     .refine((val) => val.length === 11, {
       message: "Phone invalid",
     }),
-  terms: z.boolean().refine((val) => val === true, {
-    message: "You must accept the terms",
-  }),
-  privacy: z.boolean().refine((val) => val === true, {
-    message: "You must accept the privacy policy",
-  }),
+  terms: z.boolean(),
+  privacy: z.boolean(),
   marketing: z.boolean(),
 });
 
-export default function SmsOptInPage({ storeName = "GoRight Store" }) {
+export default function SmsOptInPage({ storeName = "GoRight" }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -117,11 +113,12 @@ export default function SmsOptInPage({ storeName = "GoRight Store" }) {
                         />
                       </FormControl>
                       <FormLabel className="text-sm font-normal">
-                        I consent to receive SMS communications for the purposes
-                        of booking and managing appointments. I understand that
-                        message and data rates may apply. I understand that I
-                        can opt out of SMS communications by replying with the
-                        word ‘STOP’.
+                        I consent to receive SMS communications from GoRight for
+                        booking and managing appointments. Message frequency may
+                        vary. Standard message and data rates may apply. Reply
+                        STOP to opt out. Reply HELP for help. We will not share
+                        mobile information with third parties for promotional or
+                        marketing purposes.
                       </FormLabel>
                     </FormItem>
                   );
@@ -142,11 +139,12 @@ export default function SmsOptInPage({ storeName = "GoRight Store" }) {
                         />
                       </FormControl>
                       <FormLabel className="text-sm font-normal">
-                        I consent to receive SMS communications for the purposes
-                        of receiving marketing messages and other promotional
-                        communications. I understand that message and data rates
-                        may apply. I understand that I can opt out of SMS
-                        communications by replying with the word ‘STOP’.
+                        I consent to receive marketing and promotional SMS
+                        communications from GoRight. Message frequency may vary.
+                        Standard message and data rates may apply. Reply STOP to
+                        opt out. Reply HELP for help. We will not share mobile
+                        information with third parties for promotional or
+                        marketing purposes.
                       </FormLabel>
                     </FormItem>
                   );
@@ -184,9 +182,7 @@ export default function SmsOptInPage({ storeName = "GoRight Store" }) {
               />
 
               <Button
-                disabled={
-                  !form.formState.isValid || form.formState.isSubmitting
-                }
+                disabled={form.formState.isSubmitting}
                 className="w-full mt-6"
                 size="lg"
                 type="submit"
